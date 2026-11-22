@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="700" viewBox="0 0 1260 700" font-family="Helvetica, Arial, sans-serif">
+<title>Arquitetura em camadas</title>
+<defs>
+<marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker>
+<marker id="seta-aberta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#455a64" stroke-width="1.4"/></marker>
+<marker id="triangulo" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 z" fill="#fff" stroke="#455a64" stroke-width="1.3"/></marker>
+<marker id="losango" viewBox="0 0 14 10" refX="1" refY="5" markerWidth="14" markerHeight="10" orient="auto-start-reverse"><path d="M1,5 L7,1 L13,5 L7,9 z" fill="#455a64"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="630.0" y="34.0" font-size="18" text-anchor="middle" font-weight="bold" fill="#1b1b1b">Arquitetura em camadas — Raízes do Nordeste</text>
+<rect x="60.0" y="70.0" width="700.0" height="150.0" rx="10" fill="#e3f2fd" stroke="#37474f" stroke-width="1.5"/>
+<text x="80.0" y="96.0" font-size="15" text-anchor="start" font-weight="bold" fill="#1b1b1b">api — interface</text>
+<text x="80.0" y="122.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Controllers e DTOs de request/response</text>
+<text x="80.0" y="141.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Segurança: filtro JWT, perfis (@PreAuthorize)</text>
+<text x="80.0" y="160.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">GlobalExceptionHandler (padrão de erro)</text>
+<text x="80.0" y="179.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">OpenAPI / Swagger</text>
+<rect x="60.0" y="270.0" width="700.0" height="150.0" rx="10" fill="#e8f5e9" stroke="#37474f" stroke-width="1.5"/>
+<text x="80.0" y="296.0" font-size="15" text-anchor="start" font-weight="bold" fill="#1b1b1b">application — casos de uso</text>
+<text x="80.0" y="322.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">PedidoService · PagamentoService · EstoqueService</text>
+<text x="80.0" y="341.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">FidelidadeService · PromocaoService</text>
+<text x="80.0" y="360.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">AutenticacaoService · UsuarioService · AuditoriaService</text>
+<text x="80.0" y="379.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Orquestra o fluxo e a transação; não conhece HTTP</text>
+<rect x="60.0" y="470.0" width="700.0" height="150.0" rx="10" fill="#fff8e1" stroke="#37474f" stroke-width="1.5"/>
+<text x="80.0" y="496.0" font-size="15" text-anchor="start" font-weight="bold" fill="#1b1b1b">domain — regras de negócio</text>
+<text x="80.0" y="522.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Entidades: Pedido, Estoque, Promocao, Pagamento...</text>
+<text x="80.0" y="541.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Comportamentos: Estoque.saida, Pedido.transitarPara</text>
+<text x="80.0" y="560.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Exceções de domínio</text>
+<text x="80.0" y="579.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Portas (interfaces): *Repository</text>
+<polyline points="410.0,220.0 410.0,270.0" fill="none" stroke="#455a64" stroke-width="1.3" marker-end="url(#seta)"/>
+<polyline points="410.0,420.0 410.0,470.0" fill="none" stroke="#455a64" stroke-width="1.3" marker-end="url(#seta)"/>
+<text x="425.0" y="250.0" font-size="11" text-anchor="start" font-weight="normal" fill="#546e7a" font-style="italic">chama</text>
+<text x="425.0" y="450.0" font-size="11" text-anchor="start" font-weight="normal" fill="#546e7a" font-style="italic">usa</text>
+<rect x="940.0" y="270.0" width="270.0" height="350.0" rx="10" fill="#f3e5f5" stroke="#37474f" stroke-width="1.5"/>
+<text x="960.0" y="296.0" font-size="15" text-anchor="start" font-weight="bold" fill="#1b1b1b">infrastructure</text>
+<text x="960.0" y="316.0" font-size="12" text-anchor="start" font-weight="normal" fill="#546e7a" font-style="italic">detalhes técnicos</text>
+<text x="960.0" y="348.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Adapters JPA + Flyway</text>
+<text x="960.0" y="367.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">(migrations V1..V6)</text>
+<text x="960.0" y="386.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b"></text>
+<text x="960.0" y="405.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">JwtService</text>
+<text x="960.0" y="424.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">(emite e valida o token)</text>
+<text x="960.0" y="443.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b"></text>
+<text x="960.0" y="462.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">GatewayPagamentoMock</text>
+<text x="960.0" y="481.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b"></text>
+<text x="960.0" y="500.0" font-size="12.5" text-anchor="start" font-weight="normal" fill="#1b1b1b">Seed de desenvolvimento</text>
+<polyline points="940.0,345.0 760.0,345.0" fill="none" stroke="#455a64" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta-aberta)"/>
+<text x="850.0" y="312.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#546e7a" font-style="italic">implementa</text>
+<text x="850.0" y="326.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#546e7a" font-style="italic">EmissorToken e</text>
+<text x="850.0" y="340.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#546e7a" font-style="italic">GatewayPagamento</text>
+<polyline points="940.0,545.0 760.0,545.0" fill="none" stroke="#455a64" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#seta-aberta)"/>
+<text x="850.0" y="512.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#546e7a" font-style="italic">implementa as</text>
+<text x="850.0" y="526.0" font-size="11" text-anchor="middle" font-weight="normal" fill="#546e7a" font-style="italic">portas (Repository)</text>
+<rect x="60.0" y="650.0" width="1150.0" height="34.0" rx="6" fill="#eceff1" stroke="#90a4ae" stroke-width="1"/>
+<text x="635.0" y="672.0" font-size="12" text-anchor="middle" font-weight="normal" fill="#37474f">Dependências: api → application → domain.  A infraestrutura implementa interfaces definidas no domínio/aplicação.</text>
+</svg>

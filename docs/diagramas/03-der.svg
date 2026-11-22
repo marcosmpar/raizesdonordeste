@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1200" viewBox="0 0 1560 1200" font-family="Helvetica, Arial, sans-serif">
+<title>Diagrama Entidade-Relacionamento</title>
+<defs>
+<marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#455a64"/></marker>
+<marker id="seta-aberta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#455a64" stroke-width="1.4"/></marker>
+<marker id="triangulo" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 z" fill="#fff" stroke="#455a64" stroke-width="1.3"/></marker>
+<marker id="losango" viewBox="0 0 14 10" refX="1" refY="5" markerWidth="14" markerHeight="10" orient="auto-start-reverse"><path d="M1,5 L7,1 L13,5 L7,9 z" fill="#455a64"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="780.0" y="26.0" font-size="18" text-anchor="middle" font-weight="bold" fill="#1b1b1b">Modelo de dados (DER) — Raízes do Nordeste</text>
+<rect x="30.0" y="86.0" width="210.0" height="155.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M30,114 L30,90 Q30,86 34,86 L236,86 Q240,86 240,90 L240,114 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="135.0" y="105.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">USUARIOS</text>
+<text x="38.0" y="129.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="64.0" y="129.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="64.0" y="146.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">nome</text>
+<text x="64.0" y="163.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">email (único)</text>
+<text x="64.0" y="180.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">senha_hash (BCrypt)</text>
+<text x="64.0" y="197.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">perfil</text>
+<text x="64.0" y="214.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">ativo</text>
+<text x="64.0" y="231.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">criado_em</text>
+<rect x="30.0" y="306.0" width="210.0" height="121.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M30,334 L30,310 Q30,306 34,306 L236,306 Q240,306 240,310 L240,334 Z" fill="#fff3e0" stroke="#37474f" stroke-width="1.4"/>
+<text x="135.0" y="325.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">CONTAS_FIDELIDADE</text>
+<text x="38.0" y="349.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK/FK</text>
+<text x="84.0" y="349.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">usuario_id</text>
+<text x="64.0" y="366.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">consentimento</text>
+<text x="64.0" y="383.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">consentimento_em</text>
+<text x="64.0" y="400.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">revogado_em</text>
+<text x="64.0" y="417.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">saldo_pontos (&gt;= 0)</text>
+<rect x="30.0" y="486.0" width="272.8" height="121.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M30,514 L30,490 Q30,486 34,486 L298.8,486 Q302.8,486 302.8,490 L302.8,514 Z" fill="#fff3e0" stroke="#37474f" stroke-width="1.4"/>
+<text x="166.4" y="505.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">MOVIMENTOS_PONTOS</text>
+<text x="38.0" y="529.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="64.0" y="529.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="38.0" y="546.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="64.0" y="546.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">usuario_id</text>
+<text x="38.0" y="563.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="64.0" y="563.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">pedido_id</text>
+<text x="64.0" y="580.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">tipo (ACUMULO, RESGATE, ESTORNO)</text>
+<text x="64.0" y="597.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">pontos (com sinal)</text>
+<rect x="400.0" y="86.0" width="369.4" height="274.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M400,114 L400,90 Q400,86 404,86 L765.4000000000001,86 Q769.4000000000001,86 769.4000000000001,90 L769.4000000000001,114 Z" fill="#e8f5e9" stroke="#37474f" stroke-width="1.4"/>
+<text x="584.7" y="105.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">PEDIDOS</text>
+<text x="408.0" y="129.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="434.0" y="129.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="408.0" y="146.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="434.0" y="146.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">cliente_id (opcional)</text>
+<text x="408.0" y="163.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="434.0" y="163.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">unidade_id</text>
+<text x="434.0" y="180.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">canal_pedido (APP, TOTEM, BALCAO, PICKUP, WEB)</text>
+<text x="434.0" y="197.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">status</text>
+<text x="434.0" y="214.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">forma_pagamento</text>
+<text x="434.0" y="231.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">subtotal</text>
+<text x="434.0" y="248.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">desconto_promocao</text>
+<text x="434.0" y="265.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">desconto_fidelidade</text>
+<text x="434.0" y="282.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">pontos_resgatados</text>
+<text x="408.0" y="299.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="434.0" y="299.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">promocao_id (opcional)</text>
+<text x="434.0" y="316.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">codigo_promocao (cópia)</text>
+<text x="434.0" y="333.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">total (&gt;= 0)</text>
+<text x="434.0" y="350.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">criado_em</text>
+<rect x="400.0" y="436.0" width="210.0" height="138.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M400,464 L400,440 Q400,436 404,436 L606,436 Q610,436 610,440 L610,464 Z" fill="#e8f5e9" stroke="#37474f" stroke-width="1.4"/>
+<text x="505.0" y="455.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">ITENS_PEDIDO</text>
+<text x="408.0" y="479.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="434.0" y="479.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="408.0" y="496.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="434.0" y="496.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">pedido_id</text>
+<text x="408.0" y="513.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="434.0" y="513.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">produto_id</text>
+<text x="434.0" y="530.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">produto_nome (cópia)</text>
+<text x="434.0" y="547.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">quantidade (&gt; 0)</text>
+<text x="434.0" y="564.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">preco_unitario (cópia)</text>
+<rect x="830.0" y="86.0" width="383.2" height="189.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M830,114 L830,90 Q830,86 834,86 L1209.2,86 Q1213.2,86 1213.2,90 L1213.2,114 Z" fill="#e8f5e9" stroke="#37474f" stroke-width="1.4"/>
+<text x="1021.6" y="105.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">PAGAMENTOS</text>
+<text x="838.0" y="129.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="864.0" y="129.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="838.0" y="146.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="146.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">pedido_id</text>
+<text x="864.0" y="163.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">status (PENDENTE, APROVADO, RECUSADO, ESTORNADO)</text>
+<text x="864.0" y="180.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">valor</text>
+<text x="864.0" y="197.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">forma_pagamento</text>
+<text x="864.0" y="214.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">chave_idempotencia (único com pedido_id)</text>
+<text x="864.0" y="231.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">transacao_gateway</text>
+<text x="864.0" y="248.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">codigo_gateway</text>
+<text x="864.0" y="265.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">mensagem</text>
+<rect x="830.0" y="326.0" width="252.1" height="189.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M830,354 L830,330 Q830,326 834,326 L1078.1,326 Q1082.1,326 1082.1,330 L1082.1,354 Z" fill="#fff3e0" stroke="#37474f" stroke-width="1.4"/>
+<text x="956.0" y="345.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">PROMOCOES</text>
+<text x="838.0" y="369.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="864.0" y="369.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="864.0" y="386.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">codigo (único)</text>
+<text x="864.0" y="403.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">tipo (PERCENTUAL, VALOR_FIXO)</text>
+<text x="864.0" y="420.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">valor</text>
+<text x="864.0" y="437.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">valor_minimo_pedido</text>
+<text x="838.0" y="454.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="454.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">unidade_id (opcional)</text>
+<text x="864.0" y="471.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">inicio</text>
+<text x="864.0" y="488.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">fim</text>
+<text x="864.0" y="505.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">ativa</text>
+<rect x="400.0" y="696.0" width="210.7" height="138.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M400,724 L400,700 Q400,696 404,696 L606.7,696 Q610.7,696 610.7,700 L610.7,724 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="505.4" y="715.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">PRODUTOS</text>
+<text x="408.0" y="739.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="434.0" y="739.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="434.0" y="756.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">nome (único)</text>
+<text x="434.0" y="773.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">descricao</text>
+<text x="434.0" y="790.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">categoria</text>
+<text x="434.0" y="807.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">preco_base (&gt; 0)</text>
+<text x="434.0" y="824.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">ativo (exclusão lógica)</text>
+<rect x="1250.0" y="676.0" width="210.0" height="138.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M1250,704 L1250,680 Q1250,676 1254,676 L1456,676 Q1460,676 1460,680 L1460,704 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="1355.0" y="695.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">UNIDADES</text>
+<text x="1258.0" y="719.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="1284.0" y="719.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="1284.0" y="736.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">nome (único)</text>
+<text x="1284.0" y="753.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">cidade</text>
+<text x="1284.0" y="770.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">uf</text>
+<text x="1284.0" y="787.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">endereco</text>
+<text x="1284.0" y="804.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">ativa</text>
+<rect x="830.0" y="606.0" width="259.0" height="138.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M830,634 L830,610 Q830,606 834,606 L1085.0,606 Q1089.0,606 1089.0,610 L1089.0,634 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="959.5" y="625.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">CARDAPIO_ITENS</text>
+<text x="838.0" y="649.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="864.0" y="649.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="838.0" y="666.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="666.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">unidade_id</text>
+<text x="838.0" y="683.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="683.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">produto_id</text>
+<text x="864.0" y="700.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">preco (&gt; 0)</text>
+<text x="864.0" y="717.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">disponivel</text>
+<text x="864.0" y="734.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">único (unidade_id, produto_id)</text>
+<rect x="830.0" y="776.0" width="259.0" height="121.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M830,804 L830,780 Q830,776 834,776 L1085.0,776 Q1089.0,776 1089.0,780 L1089.0,804 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="959.5" y="795.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">ESTOQUES</text>
+<text x="838.0" y="819.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="864.0" y="819.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="838.0" y="836.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="836.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">unidade_id</text>
+<text x="838.0" y="853.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="853.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">produto_id</text>
+<text x="864.0" y="870.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">quantidade (&gt;= 0)</text>
+<text x="864.0" y="887.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">único (unidade_id, produto_id)</text>
+<rect x="830.0" y="926.0" width="210.0" height="172.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M830,954 L830,930 Q830,926 834,926 L1036,926 Q1040,926 1040,930 L1040,954 Z" fill="#e8f0fe" stroke="#37474f" stroke-width="1.4"/>
+<text x="935.0" y="945.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">MOVIMENTACOES_ESTOQUE</text>
+<text x="838.0" y="969.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="864.0" y="969.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="838.0" y="986.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="986.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">unidade_id</text>
+<text x="838.0" y="1003.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="1003.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">produto_id</text>
+<text x="838.0" y="1020.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#1565c0">FK</text>
+<text x="864.0" y="1020.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">usuario_id</text>
+<text x="864.0" y="1037.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">tipo (ENTRADA, SAIDA)</text>
+<text x="864.0" y="1054.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">quantidade (&gt; 0)</text>
+<text x="864.0" y="1071.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">motivo</text>
+<text x="864.0" y="1088.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">criado_em</text>
+<rect x="1250.0" y="86.0" width="252.1" height="172.0" rx="4" fill="#ffffff" stroke="#37474f" stroke-width="1.4"/>
+<path d="M1250,114 L1250,90 Q1250,86 1254,86 L1498.1,86 Q1502.1,86 1502.1,90 L1502.1,114 Z" fill="#eceff1" stroke="#37474f" stroke-width="1.4"/>
+<text x="1376.0" y="105.0" font-size="13" text-anchor="middle" font-weight="bold" fill="#1b1b1b">AUDITORIA_LOGS</text>
+<text x="1258.0" y="129.0" font-size="10.5" text-anchor="start" font-weight="bold" fill="#c62828">PK</text>
+<text x="1284.0" y="129.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">id</text>
+<text x="1284.0" y="146.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">ator_id</text>
+<text x="1284.0" y="163.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">acao</text>
+<text x="1284.0" y="180.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">entidade</text>
+<text x="1284.0" y="197.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">entidade_id</text>
+<text x="1284.0" y="214.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">detalhes (sem dados pessoais)</text>
+<text x="1284.0" y="231.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">request_id</text>
+<text x="1284.0" y="248.0" font-size="12" text-anchor="start" font-weight="normal" fill="#1b1b1b">criado_em</text>
+<text x="1254.0" y="274.0" font-size="10.5" text-anchor="start" font-weight="normal" fill="#78909c" font-style="italic">sem chaves estrangeiras: registro histórico</text>
+<polyline points="240.0,132.5 400.0,113.4" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="257.2" y="145.5" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="382.8" y="108.4" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="135.0,241.0 135.0,306.0" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="124.0" y="261.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="146.0" y="294.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">0..1</text>
+<polyline points="135.0,427.0 166.4,486.0" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="132.8" y="450.3" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="168.6" y="470.7" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="30.0,163.5 16.0,162.0 16.0,556.0 30.0,546.5" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="15.3" y="154.9" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="10.6" y="550.4" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="30.0,217.8 8.0,217.0 8.0,1041.0 830.0,1012.0" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="14.4" y="210.2" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="813.6" y="1005.6" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="400.0,236.7 302.8,546.5" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="384.7" y="252.7" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="318.1" y="538.5" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="584.7,360.0 505.0,436.0" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="565.5" y="367.1" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="524.2" y="436.9" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1..N</text>
+<polyline points="769.4,168.2 830.0,114.3" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="788.7" y="169.8" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="810.7" y="120.8" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="769.4,305.2 830.0,354.4" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="774.9" y="327.8" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<text x="824.5" y="339.7" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">0..1</text>
+<polyline points="505.0,574.0 505.4,696.0" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="494.0" y="594.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<text x="516.3" y="684.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<polyline points="610.7,730.5 830.0,661.2" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="629.3" y="740.2" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="811.4" y="659.5" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="610.7,771.9 830.0,824.4" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="623.7" y="790.3" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="817.0" y="814.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="610.7,813.3 830.0,994.8" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="616.0" y="836.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="824.7" y="980.1" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="1250.0,703.6 1089.0,661.2" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="1237.3" y="692.9" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="1101.7" y="679.9" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="1250.0,745.0 1089.0,824.4" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="1230.8" y="746.2" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="1108.2" y="831.2" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="1250.0,786.4 1040.0,994.8" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="1230.9" y="793.9" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+<text x="1059.1" y="995.3" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="1355.0,676.0 1355.0,426.0 1082.1,420.5" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="1366.0" y="664.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">0..1</text>
+<text x="1097.9" y="435.8" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<polyline points="677.0,86.0 677.0,58.0 1530.0,58.0 1530.0,758.8 1460.0,758.8" fill="none" stroke="#546e7a" stroke-width="1.3"/>
+<text x="688.0" y="74.0" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">N</text>
+<text x="1476.0" y="773.8" font-size="11" text-anchor="middle" font-weight="bold" fill="#b71c1c">1</text>
+</svg>

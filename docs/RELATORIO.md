@@ -1,6 +1,6 @@
 # RELATÓRIO DO PROJETO DE BACK-END — RAÍZES DO NORDESTE
 
-> **Texto-base para o relatório final.** Reúne o conteúdo de `docs/` em um único arquivo para ser convertido/colado no modelo ABNT exigido (capa, sumário, numeração, referências e entrega em PDF nomeado `RU_Projeto_Back_End.PDF`). Os diagramas estão em Mermaid: exporte-os como imagem em https://mermaid.live para inserir no documento.
+> **Texto-base para o relatório final.** Reúne o conteúdo de `docs/` em um único arquivo para ser convertido/colado no modelo ABNT exigido (capa, sumário, numeração, referências e entrega em PDF nomeado `RU_Projeto_Back_End.PDF`). Os diagramas estão como imagens em `docs/diagramas/` (PNG e SVG) e já referenciados abaixo.
 
 **Capa:** _instituição, curso, disciplina, nome do aluno, RU, professor, cidade e ano_.
 
@@ -86,28 +86,13 @@ Levantamento com foco em regras de negócio, persistência, integrações e segu
 
 ## 3 DIAGRAMAS E ARQUITETURA
 
-Os diagramas estão em [Mermaid](https://mermaid.js.org/) e são renderizados automaticamente pelo GitHub/GitLab. Para obter imagem ou PDF (ex.: para o relatório), cole o bloco em https://mermaid.live e exporte.
+Os diagramas estão em `docs/diagramas/` em **PNG** (para o relatório) e **SVG** (vetorial), gerados por `python3 docs/diagramas/gerar_diagramas.py`.
 
 ### 3.1 Arquitetura em camadas
 
-```mermaid
-flowchart TB
-    subgraph API["api — interface"]
-        C["Controllers + DTOs<br/>Segurança (JWT, roles)<br/>GlobalExceptionHandler<br/>OpenAPI"]
-    end
-    subgraph APP["application — casos de uso"]
-        S["PedidoService · PagamentoService · EstoqueService<br/>FidelidadeService · PromocaoService<br/>AutenticacaoService · UsuarioService · AuditoriaService"]
-    end
-    subgraph DOM["domain — regras de negócio"]
-        D["Entidades (Pedido, Estoque, Promocao...)<br/>Máquina de estados do pedido<br/>Exceções de domínio<br/>Portas: *Repository"]
-    end
-    subgraph INF["infrastructure — detalhes técnicos"]
-        I["Adapters JPA + migrations Flyway<br/>JwtService / filtro JWT<br/>GatewayPagamentoMock<br/>Seed de desenvolvimento"]
-    end
-    API --> APP --> DOM
-    INF -. implementa portas .-> DOM
-    INF -. implementa EmissorToken / GatewayPagamento .-> APP
-```
+![Arquitetura em camadas](diagramas/01-arquitetura-camadas.png)
+
+_Fonte vetorial: [`diagramas/01-arquitetura-camadas.svg`](diagramas/01-arquitetura-camadas.svg)_
 
 | Camada | Responsabilidade | Exemplos |
 |---|---|---|
@@ -120,38 +105,9 @@ Sentido das dependências: `api → application → domain`. A infraestrutura im
 
 ### 3.2 Diagrama de casos de uso
 
-```mermaid
-flowchart LR
-    Cli(["Cliente<br/>App · Web · Totem"])
-    Atd(["Atendente<br/>Balcão"])
-    Coz(["Cozinha"])
-    Ger(["Gerente / Administrador"])
-    Gw(["Gateway de pagamento<br/>(sistema externo)"])
+![Diagrama de casos de uso](diagramas/02-casos-de-uso.png)
 
-    subgraph SIS["Sistema Raízes do Nordeste"]
-        UC1(["Cadastrar-se / autenticar"])
-        UC2(["Consultar cardápio da unidade"])
-        UC3(["Realizar pedido"])
-        UC4(["Solicitar pagamento"])
-        UC5(["Acompanhar / consultar pedidos"])
-        UC6(["Cancelar pedido"])
-        UC7(["Atualizar status do pedido"])
-        UC8(["Consultar e movimentar estoque"])
-        UC9(["Gerir unidades, produtos e cardápio"])
-        UC10(["Gerir promoções"])
-        UC11(["Participar da fidelidade<br/>(consentir, ver saldo, resgatar)"])
-        UC12(["Consultar auditoria"])
-        UC13(["Gerir usuários internos"])
-    end
-
-    Cli --- UC1 & UC2 & UC3 & UC4 & UC5 & UC6 & UC11
-    Atd --- UC2 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8
-    Coz --- UC5 & UC7
-    Ger --- UC8 & UC9 & UC10 & UC12 & UC5 & UC6 & UC7
-    Gw --- UC4
-    UC3 -.->|include| UC2
-    UC4 -.->|extend: falha do gateway| UC4
-```
+_Fonte vetorial: [`diagramas/02-casos-de-uso.svg`](diagramas/02-casos-de-uso.svg)_
 
 #### Descrição da feature crítica — UC03/UC04: Realizar pedido + Solicitar pagamento
 
@@ -193,143 +149,9 @@ flowchart LR
 
 ### 3.3 Modelo de dados (DER)
 
-```mermaid
-erDiagram
-    USUARIOS ||--o{ PEDIDOS : "faz (cliente_id, opcional)"
-    USUARIOS ||--o| CONTAS_FIDELIDADE : possui
-    USUARIOS ||--o{ MOVIMENTOS_PONTOS : acumula
-    USUARIOS ||--o{ MOVIMENTACOES_ESTOQUE : registra
-    UNIDADES ||--o{ CARDAPIO_ITENS : oferece
-    PRODUTOS ||--o{ CARDAPIO_ITENS : "é ofertado em"
-    UNIDADES ||--o{ ESTOQUES : "tem estoque próprio"
-    PRODUTOS ||--o{ ESTOQUES : "saldo de"
-    UNIDADES ||--o{ MOVIMENTACOES_ESTOQUE : "ocorre em"
-    PRODUTOS ||--o{ MOVIMENTACOES_ESTOQUE : movimenta
-    UNIDADES ||--o{ PEDIDOS : recebe
-    PEDIDOS ||--|{ ITENS_PEDIDO : contem
-    PRODUTOS ||--o{ ITENS_PEDIDO : "referenciado por"
-    PEDIDOS ||--o{ PAGAMENTOS : "tentativas (desacoplado)"
-    PROMOCOES |o--o{ PEDIDOS : "aplicada em"
-    UNIDADES |o--o{ PROMOCOES : "restringe (opcional)"
-    PEDIDOS ||--o{ MOVIMENTOS_PONTOS : origina
+![Modelo de dados (DER)](diagramas/03-der.png)
 
-    USUARIOS {
-        bigint id PK
-        varchar nome
-        varchar email UK
-        varchar senha_hash
-        varchar perfil "CLIENTE|ATENDENTE|COZINHA|GERENTE|ADMIN"
-        boolean ativo
-        timestamptz criado_em
-    }
-    UNIDADES {
-        bigint id PK
-        varchar nome UK
-        varchar cidade
-        varchar uf
-        varchar endereco
-        boolean ativa
-    }
-    PRODUTOS {
-        bigint id PK
-        varchar nome UK
-        varchar descricao
-        varchar categoria
-        numeric preco_base "CHECK > 0"
-        boolean ativo "exclusão lógica"
-    }
-    CARDAPIO_ITENS {
-        bigint id PK
-        bigint unidade_id FK
-        bigint produto_id FK
-        numeric preco "CHECK > 0"
-        boolean disponivel
-    }
-    ESTOQUES {
-        bigint id PK
-        bigint unidade_id FK
-        bigint produto_id FK
-        int quantidade "CHECK >= 0"
-    }
-    MOVIMENTACOES_ESTOQUE {
-        bigint id PK
-        bigint unidade_id FK
-        bigint produto_id FK
-        varchar tipo "ENTRADA|SAIDA"
-        int quantidade "CHECK > 0"
-        varchar motivo
-        bigint usuario_id FK
-        timestamptz criado_em
-    }
-    PEDIDOS {
-        bigint id PK
-        bigint cliente_id FK "opcional"
-        bigint unidade_id FK
-        varchar canal_pedido "APP|TOTEM|BALCAO|PICKUP|WEB"
-        varchar status
-        varchar forma_pagamento
-        numeric subtotal
-        numeric desconto_promocao
-        numeric desconto_fidelidade
-        int pontos_resgatados
-        bigint promocao_id FK "opcional"
-        varchar codigo_promocao
-        numeric total "CHECK >= 0"
-    }
-    ITENS_PEDIDO {
-        bigint id PK
-        bigint pedido_id FK
-        bigint produto_id FK
-        varchar produto_nome "cópia"
-        int quantidade "CHECK > 0"
-        numeric preco_unitario "cópia"
-    }
-    PAGAMENTOS {
-        bigint id PK
-        bigint pedido_id FK
-        varchar status "PENDENTE|APROVADO|RECUSADO|ESTORNADO"
-        numeric valor
-        varchar chave_idempotencia "UK com pedido_id"
-        varchar transacao_gateway
-        varchar codigo_gateway
-        varchar mensagem
-    }
-    PROMOCOES {
-        bigint id PK
-        varchar codigo UK
-        varchar tipo "PERCENTUAL|VALOR_FIXO"
-        numeric valor
-        numeric valor_minimo_pedido
-        bigint unidade_id FK "opcional"
-        timestamptz inicio
-        timestamptz fim
-        boolean ativa
-    }
-    CONTAS_FIDELIDADE {
-        bigint usuario_id PK, FK
-        boolean consentimento
-        timestamptz consentimento_em
-        timestamptz revogado_em
-        int saldo_pontos "CHECK >= 0"
-    }
-    MOVIMENTOS_PONTOS {
-        bigint id PK
-        bigint usuario_id FK
-        varchar tipo "ACUMULO|RESGATE|ESTORNO"
-        int pontos "com sinal"
-        bigint pedido_id FK
-    }
-    AUDITORIA_LOGS {
-        bigint id PK
-        bigint ator_id
-        varchar acao
-        varchar entidade
-        bigint entidade_id
-        varchar detalhes "sem PII"
-        varchar request_id
-        timestamptz criado_em
-    }
-```
+_Fonte vetorial: [`diagramas/03-der.svg`](diagramas/03-der.svg)_
 
 Observações de modelagem:
 
@@ -341,206 +163,21 @@ Observações de modelagem:
 
 ### 3.4 Diagrama de classes (visão de domínio)
 
-```mermaid
-classDiagram
-    class Usuario {
-        Long id
-        String nome
-        String email
-        String senhaHash
-        Perfil perfil
-        boolean ativo
-    }
-    class Unidade {
-        Long id
-        String nome
-        String cidade
-        boolean ativa
-    }
-    class Produto {
-        Long id
-        String nome
-        String categoria
-        BigDecimal precoBase
-        boolean ativo
-        desativar()
-    }
-    class CardapioItem {
-        BigDecimal preco
-        boolean disponivel
-        definir(preco, disponivel)
-    }
-    class Estoque {
-        int quantidade
-        entrada(qtd)
-        saida(qtd)
-    }
-    class MovimentacaoEstoque {
-        TipoMovimentacao tipo
-        int quantidade
-        String motivo
-    }
-    class Pedido {
-        CanalPedido canalPedido
-        StatusPedido status
-        FormaPagamento formaPagamento
-        BigDecimal subtotal
-        BigDecimal total
-        adicionarItem(produto, qtd, preco)
-        aplicarPromocao(promocao, desconto)
-        aplicarResgate(pontos, desconto)
-        transitarPara(status)
-        confirmarPagamento()
-        cancelar()
-    }
-    class ItemPedido {
-        String produtoNome
-        int quantidade
-        BigDecimal precoUnitario
-        subtotal()
-    }
-    class Pagamento {
-        StatusPagamento status
-        BigDecimal valor
-        String chaveIdempotencia
-        String transacaoGateway
-        aprovar()
-        recusar()
-        manterPendente()
-        estornar()
-    }
-    class Promocao {
-        String codigo
-        TipoPromocao tipo
-        BigDecimal valor
-        validarPara(unidadeId, subtotal, agora)
-        calcularDesconto(subtotal)
-    }
-    class ContaFidelidade {
-        boolean consentimento
-        int saldoPontos
-        conceder()
-        revogar()
-        creditar(pontos)
-        debitar(pontos)
-    }
-    class MovimentoPontos {
-        TipoMovimentoPontos tipo
-        int pontos
-    }
-    class AuditoriaLog {
-        String acao
-        String entidade
-        Long entidadeId
-    }
-    class StatusPedido {
-        <<enumeration>>
-        AGUARDANDO_PAGAMENTO
-        EM_PREPARO
-        PRONTO
-        ENTREGUE
-        CANCELADO
-        podeIrPara(destino)
-    }
-    class CanalPedido {
-        <<enumeration>>
-        APP
-        TOTEM
-        BALCAO
-        PICKUP
-        WEB
-    }
-    class GatewayPagamento {
-        <<interface>>
-        processar(solicitacao)
-        estornar(transacaoId, valor)
-    }
-    class GatewayPagamentoMock
+![Diagrama de classes](diagramas/04-diagrama-de-classes.png)
 
-    Unidade "1" --> "*" CardapioItem
-    Produto "1" --> "*" CardapioItem
-    Unidade "1" --> "*" Estoque
-    Produto "1" --> "*" Estoque
-    Estoque ..> MovimentacaoEstoque : gera
-    Usuario "0..1" --> "*" Pedido : cliente
-    Unidade "1" --> "*" Pedido
-    Pedido "1" *-- "1..*" ItemPedido
-    ItemPedido --> Produto
-    Pedido "1" --> "*" Pagamento
-    Pedido --> Promocao : aplica
-    Pedido --> StatusPedido
-    Pedido --> CanalPedido
-    Usuario "1" --> "0..1" ContaFidelidade
-    ContaFidelidade "1" --> "*" MovimentoPontos
-    GatewayPagamentoMock ..|> GatewayPagamento
-```
+_Fonte vetorial: [`diagramas/04-diagrama-de-classes.svg`](diagramas/04-diagrama-de-classes.svg)_
 
 ### 3.5 Diagrama de sequência — Pedido → Pagamento externo (mock) → Status
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Cli as Cliente (APP/TOTEM/WEB)
-    participant API as api (Controllers)
-    participant PS as PedidoService
-    participant ES as EstoqueService
-    participant PG as PagamentoService
-    participant GW as Gateway mock
-    participant DB as Banco de dados
-    actor Coz as Cozinha / Atendente
+![Diagrama de sequência](diagramas/05-diagrama-de-sequencia.png)
 
-    Cli->>API: POST /pedidos {canalPedido, unidadeId, itens, formaPagamento}
-    API->>PS: criar(...)
-    PS->>DB: valida unidade e preços do cardápio
-    PS->>DB: salva pedido (AGUARDANDO_PAGAMENTO, total calculado)
-    PS->>ES: registrarSaida (reserva, com lock)
-    ES->>DB: baixa estoque + movimentação
-    alt estoque insuficiente
-        ES-->>API: ESTOQUE_INSUFICIENTE
-        API-->>Cli: 409 (tudo desfeito)
-    else ok
-        PS->>DB: auditoria PEDIDO_CRIADO
-        API-->>Cli: 201 {pedidoId, status, total}
-    end
-
-    Cli->>API: POST /pagamentos {pedidoId} + Idempotency-Key
-    API->>PG: pagar(...)
-    PG->>DB: bloqueia o pedido (lock)
-    PG->>GW: processar(valor, forma)
-    alt aprovado
-        GW-->>PG: APPROVED + transacaoId
-        PG->>DB: pagamento APROVADO, pedido EM_PREPARO, pontos, auditoria
-        API-->>Cli: 201 {status APROVADO, gateway{...}}
-    else recusado
-        GW-->>PG: DECLINED
-        PG->>DB: pagamento RECUSADO (pedido segue AGUARDANDO_PAGAMENTO)
-        API-->>Cli: 201 {status RECUSADO, mensagem}
-    else gateway indisponível
-        GW--xPG: timeout / indisponível
-        PG->>DB: pagamento PENDENTE
-        API-->>Cli: 202 {status PENDENTE} (repetir com a mesma chave)
-    end
-
-    Coz->>API: PATCH /pedidos/{id}/status {PRONTO}
-    API->>PS: atualizarStatus (valida transição)
-    API-->>Coz: 200 PRONTO
-    Coz->>API: PATCH /pedidos/{id}/status {ENTREGUE}
-    API-->>Coz: 200 ENTREGUE
-```
+_Fonte vetorial: [`diagramas/05-diagrama-de-sequencia.svg`](diagramas/05-diagrama-de-sequencia.svg)_
 
 ### 3.6 Máquina de estados do pedido
 
-```mermaid
-stateDiagram-v2
-    [*] --> AGUARDANDO_PAGAMENTO: POST /pedidos
-    AGUARDANDO_PAGAMENTO --> EM_PREPARO: pagamento aprovado
-    AGUARDANDO_PAGAMENTO --> CANCELADO: cancelamento
-    EM_PREPARO --> PRONTO: cozinha
-    EM_PREPARO --> CANCELADO: cancelamento da equipe (estorna pagamento)
-    PRONTO --> ENTREGUE: atendente
-    ENTREGUE --> [*]
-    CANCELADO --> [*]
-```
+![Máquina de estados do pedido](diagramas/06-maquina-de-estados.png)
+
+_Fonte vetorial: [`diagramas/06-maquina-de-estados.svg`](diagramas/06-maquina-de-estados.svg)_
 
 ## 4 API E ENDPOINTS
 

@@ -106,6 +106,7 @@ Dependências: `api → application → domain`; a `infrastructure` implementa a
 |---|---|
 | [`docs/REQUISITOS.md`](docs/REQUISITOS.md) | Requisitos funcionais/não funcionais, prioridades e limitações |
 | [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md) | Camadas, casos de uso (com descrição da feature crítica), DER, diagrama de classes e de sequência |
+| [`docs/diagramas/`](docs/diagramas) | Os 6 diagramas em PNG e SVG (gerados por `gerar_diagramas.py`) |
 | [`docs/API.md`](docs/API.md) | Contrato da API: endpoints, permissões, exemplos, status e padrão de erro |
 | [`docs/PLANO_DE_TESTES.md`](docs/PLANO_DE_TESTES.md) | Cenários de teste e como executá-los |
 | [`docs/RELATORIO.md`](docs/RELATORIO.md) | Texto consolidado para o relatório final (PDF) |
