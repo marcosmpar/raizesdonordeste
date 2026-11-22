@@ -1,0 +1,12 @@
+# Blueprint do Render: cria o serviço web a partir do Dockerfile (plano gratuito).
+services:
+  - type: web
+    name: raizes-do-nordeste
+    runtime: docker
+    plan: free
+    healthCheckPath: /unidades
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: dev
+      - key: JWT_SECRET
+        generateValue: true
