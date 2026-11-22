@@ -72,10 +72,25 @@ export JWT_SECRET=um-segredo-longo-e-aleatorio-com-mais-de-32-caracteres
 
 O Flyway aplica as migrations (`src/main/resources/db/migration`). **O seed não roda em `prod`**; crie o primeiro ADMIN diretamente no banco ou rode antes em `dev`. Observação: neste ambiente de desenvolvimento o perfil `prod` não foi exercitado contra um PostgreSQL real; o SQL das migrations usa apenas recursos padrão e é executado em H2 em modo PostgreSQL.
 
+## Deploy de demonstração (Render, plano gratuito)
+
+O repositório traz um `Dockerfile` e um `render.yaml` (Blueprint). Com o perfil `dev` (H2 embutido + seed automático) não é preciso criar banco: a API sobe com dados de demonstração e o **Swagger fica funcional**.
+
+1. Crie uma conta em https://render.com e conecte o repositório do GitHub.
+2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço web com plano `free`).
+3. Aguarde o build. O endereço fica como `https://<nome>.onrender.com` — a raiz (`/`) redireciona para o Swagger (`/swagger-ui.html`).
+
+Observações:
+
+- O serviço gratuito **hiberna após ~15 min sem acesso**; o primeiro acesso depois disso pode levar cerca de 1 minuto.
+- O banco H2 fica no disco efêmero: ao reiniciar, os dados voltam ao estado inicial (o seed é refeito). Os usuários de demonstração (senha `Senha@123`) ficam públicos, então use apenas para demonstração.
+- A chave JWT é gerada pelo `render.yaml` (`JWT_SECRET`). A porta é lida da variável `PORT`.
+- Os limites dos planos gratuitos mudam; confira a página de preços do provedor.
+
 ## Testes
 
 ```bash
-./mvnw test                      # 62 testes automatizados (JUnit + MockMvc, H2 em memória)
+./mvnw test                      # 63 testes automatizados (JUnit + MockMvc, H2 em memória)
 ```
 
 Coleção Postman/Insomnia com **55 cenários** (34 positivos, 21 negativos) e testes automáticos em cada requisição:

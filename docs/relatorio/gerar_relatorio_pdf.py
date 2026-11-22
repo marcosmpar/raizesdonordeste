@@ -30,7 +30,7 @@ RESUMO = ("Este trabalho apresenta a análise, a modelagem e a implementação d
           "testável, junto com estoque por unidade, promoções, programa de fidelidade com consentimento e auditoria de ações "
           "sensíveis. São descritos os requisitos, os diagramas de casos de uso, de entidade-relacionamento, de classes e de "
           "sequência, o contrato da API documentado em OpenAPI, os cuidados de segurança e de proteção de dados pessoais conforme "
-          "a LGPD e o plano de testes. A validação combinou 62 testes automatizados, incluindo cenários de concorrência, e uma "
+          "a LGPD e o plano de testes. A validação combinou 63 testes automatizados, incluindo cenários de concorrência, e uma "
           "coleção de 55 cenários executáveis no Postman. Como resultado, obteve-se uma API reproduzível e documentada, com "
           "limitações e próximos passos explicitados.")
 PALAVRAS_CHAVE = "Back-end. API REST. Spring Boot. Pedidos. LGPD."

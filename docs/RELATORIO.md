@@ -456,7 +456,7 @@ Mínimo técnico de segurança e privacidade adotado no back-end.
 - **Coleção de testes:** `docs/postman/raizes-do-nordeste.postman_collection.json` (55 requisições com testes automáticos, organizadas por pasta).
 - **Banco de dados:** migrations Flyway `V1` a `V6`; DER na seção 3.3.
 - **MVP obrigatório:** Fluxo A (Pedido → Pagamento mock → Atualização de status) completo, com persistência real, JWT com perfis e erro padronizado — além de estoque por unidade, promoções, fidelidade e auditoria.
-- **Testes automatizados:** `./mvnw test` executa 62 testes (autenticação, catálogo, estoque, pedidos, pagamento/status, fidelidade, promoções e auditoria), incluindo cenários de concorrência.
+- **Testes automatizados:** `./mvnw test` executa 63 testes (autenticação, catálogo, estoque, pedidos, pagamento/status, fidelidade, promoções e auditoria), incluindo cenários de concorrência.
 
 
 ## 7 PLANO DE TESTES
@@ -556,7 +556,7 @@ Além da coleção, os mesmos fluxos (e outros, como concorrência) são coberto
 
 **Segurança e LGPD.** Senhas com BCrypt, JWT stateless, autorização por perfil e por propriedade do dado, respostas e logs sem dados pessoais, consentimento revogável para a fidelidade e segredos fora do código (seção 5).
 
-**Evidências.** A coleção Postman executa 55 cenários (34 positivos e 21 negativos), com 112 verificações automáticas aprovadas; a suíte `./mvnw test` executa 62 testes, incluindo concorrência de estoque (10 saídas simultâneas sobre saldo 5 resultam em exatamente 5 sucessos) e de pagamento (6 pagamentos simultâneos do mesmo pedido resultam em 1 aprovação).
+**Evidências.** A coleção Postman executa 55 cenários (34 positivos e 21 negativos), com 112 verificações automáticas aprovadas; a suíte `./mvnw test` executa 63 testes, incluindo concorrência de estoque (10 saídas simultâneas sobre saldo 5 resultam em exatamente 5 sucessos) e de pagamento (6 pagamentos simultâneos do mesmo pedido resultam em 1 aprovação).
 
 **Limitações e próximos passos.** Expiração automática de pedidos não pagos (liberando a reserva de estoque), separação da chamada ao gateway real da transação de banco, refresh token, rate limiting, restrição da equipe por unidade e validação do perfil de produção em PostgreSQL real.
 
