@@ -36,3 +36,4 @@ build/
 .env
 data/
 docs/relatorio/capa.json
+docs/relatorio/*.pdf

@@ -19,7 +19,7 @@ Dependências principais: Spring Web MVC, Spring Data JPA, Spring Security, Bean
 ## Como executar (perfil `dev`, sem instalar banco)
 
 ```bash
-git clone <URL-DO-REPOSITORIO>
+git clone https://github.com/marcosmpar/raizesdonordeste.git
 cd raizesdonordeste
 ./mvnw spring-boot:run
 ```
@@ -110,11 +110,11 @@ Dependências: `api → application → domain`; a `infrastructure` implementa a
 | [`docs/API.md`](docs/API.md) | Contrato da API: endpoints, permissões, exemplos, status e padrão de erro |
 | [`docs/PLANO_DE_TESTES.md`](docs/PLANO_DE_TESTES.md) | Cenários de teste e como executá-los |
 | [`docs/RELATORIO.md`](docs/RELATORIO.md) | Texto consolidado do relatório final |
-| [`docs/relatorio/`](docs/relatorio) | Relatório em PDF (ABNT) e o gerador (`python3 docs/relatorio/gerar_relatorio_pdf.py`); dados da capa em `capa.json` (copie de `capa.exemplo.json`; não é versionado) |
+| [`docs/relatorio/`](docs/relatorio) | Gerador do relatório em PDF no padrão ABNT (`python3 docs/relatorio/gerar_relatorio_pdf.py`). O PDF e os dados da capa (`capa.json`, copiado de `capa.exemplo.json`) não são versionados |
 
 ## Evidências
 
-- Repositório: _preencher com a URL pública_
+- Repositório: https://github.com/marcosmpar/raizesdonordeste
 - Swagger local: http://localhost:8080/swagger-ui.html (rota `/swagger-ui.html`)
 - Coleção de testes: `docs/postman/raizes-do-nordeste.postman_collection.json`
 - Deploy: não há
