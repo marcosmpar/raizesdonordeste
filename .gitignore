@@ -35,3 +35,4 @@ build/
 ### Projeto ###
 .env
 data/
+docs/relatorio/capa.json
