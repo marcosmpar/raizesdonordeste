@@ -450,7 +450,7 @@ Mínimo técnico de segurança e privacidade adotado no back-end.
 
 ## 6 ENTREGA TÉCNICA
 
-- **Código-fonte e histórico:** repositório Git com commits convencionais por funcionalidade.
+- **Código-fonte e histórico:** repositório Git público em https://github.com/marcosmpar/raizesdonordeste, com commits convencionais por funcionalidade.
 - **Execução:** `./mvnw spring-boot:run` (perfil `dev`: H2 embutido, migrations e seed automáticos); passo a passo, variáveis de ambiente e perfil `prod` no `README.md`.
 - **Documentação da API:** Swagger UI em `http://localhost:8080/swagger-ui.html` (OpenAPI em `/v3/api-docs`), gerada do código.
 - **Coleção de testes:** `docs/postman/raizes-do-nordeste.postman_collection.json` (55 requisições com testes automáticos, organizadas por pasta).

@@ -56,6 +56,7 @@ def inline(t):
     t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
     t = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", t)
     t = re.sub(r"(?<![\w])_(?!\s)(.+?)(?<!\s)_(?![\w])", r"<em>\1</em>", t)
+    t = re.sub(r'(?<![">=/\w])(https?://[^\s<]+?)(?=[.,;:)]*(?:\s|<|$))', r'<span class="url">\1</span>', t)
     return re.sub(r"\u0000(\d+)\u0000", lambda m: guardados[int(m.group(1))], t)
 
 
@@ -259,9 +260,10 @@ h4 .num { font-weight: bold; }
 h5 { margin: 12pt 0 6pt; font-style: italic; }
 h2 .num, h3 .num, h4 .num, h5 .num { margin-right: 0.3em; }
 ul, ol { margin: 0 0 0 1.25cm; padding-left: 0.6cm; }
-li { margin: 0; }
+li { margin: 0; text-align: left; }
 li p { text-indent: 0; }
-code { font-family: Menlo, 'Courier New', monospace; font-size: 9.5pt; }
+code { font-family: Menlo, 'Courier New', monospace; font-size: 9.5pt; hyphens: none; }
+.url { hyphens: none; overflow-wrap: anywhere; }
 pre { font-family: Menlo, 'Courier New', monospace; font-size: 8.5pt; line-height: 1.25; text-align: left; margin: 6pt 0 10pt;
       padding: 6pt 8pt; border: 0.5pt solid #777; background: #f6f6f6; white-space: pre-wrap; word-break: break-word; break-inside: avoid; }
 pre code { font-size: 8.5pt; }
