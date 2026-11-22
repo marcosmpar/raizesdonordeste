@@ -80,6 +80,8 @@ O repositório traz um `Dockerfile` e um `render.yaml` (Blueprint). Com o perfil
 2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço web com plano `free`).
 3. Aguarde o build. O endereço fica como `https://<nome>.onrender.com` — a raiz (`/`) redireciona para o Swagger (`/swagger-ui.html`).
 
+Demonstração publicada: https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html
+
 Observações:
 
 - O serviço gratuito **hiberna após ~15 min sem acesso**; o primeiro acesso depois disso pode levar cerca de 1 minuto.
@@ -130,6 +132,7 @@ Dependências: `api → application → domain`; a `infrastructure` implementa a
 ## Evidências
 
 - Repositório: https://github.com/marcosmpar/raizesdonordeste
+- Swagger online (demonstração no Render): https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html — o serviço gratuito hiberna após ~15 min sem acesso, então o primeiro acesso pode demorar cerca de 1 minuto
 - Swagger local: http://localhost:8080/swagger-ui.html (rota `/swagger-ui.html`)
 - Coleção de testes: `docs/postman/raizes-do-nordeste.postman_collection.json`
 - Deploy: não há

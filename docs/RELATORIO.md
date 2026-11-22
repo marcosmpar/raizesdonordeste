@@ -452,7 +452,7 @@ Mínimo técnico de segurança e privacidade adotado no back-end.
 
 - **Código-fonte e histórico:** repositório Git público em https://github.com/marcosmpar/raizesdonordeste, com commits convencionais por funcionalidade.
 - **Execução:** `./mvnw spring-boot:run` (perfil `dev`: H2 embutido, migrations e seed automáticos); passo a passo, variáveis de ambiente e perfil `prod` no `README.md`.
-- **Documentação da API:** Swagger UI em `http://localhost:8080/swagger-ui.html` (OpenAPI em `/v3/api-docs`), gerada do código.
+- **Documentação da API:** Swagger UI em `http://localhost:8080/swagger-ui.html` (OpenAPI em `/v3/api-docs`), gerada do código, e também publicada online para demonstração em https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html (serviço gratuito que hiberna após cerca de 15 minutos sem acesso; o primeiro acesso pode levar cerca de 1 minuto).
 - **Coleção de testes:** `docs/postman/raizes-do-nordeste.postman_collection.json` (55 requisições com testes automáticos, organizadas por pasta).
 - **Banco de dados:** migrations Flyway `V1` a `V6`; DER na seção 3.3.
 - **MVP obrigatório:** Fluxo A (Pedido → Pagamento mock → Atualização de status) completo, com persistência real, JWT com perfis e erro padronizado — além de estoque por unidade, promoções, fidelidade e auditoria.
