@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-	private static final String[] PUBLICO = { "/auth/**", "/v3/api-docs/**", "/swagger-ui.html",
+	private static final String[] PUBLICO = { "/", "/auth/**", "/v3/api-docs/**", "/swagger-ui.html",
 			"/swagger-ui/**" };
 
 	@Bean
