@@ -565,12 +565,12 @@ Além da coleção, os mesmos fluxos (e outros, como concorrência) são coberto
 
 BRASIL. **Lei nº 13.709, de 14 de agosto de 2018.** Lei Geral de Proteção de Dados Pessoais (LGPD). Brasília, DF: Presidência da República, 2018.
 
-FLYWAY. **Flyway Documentation.** Disponível em: https://documentation.red-gate.com/flyway. Acesso em: _preencher_.
+FLYWAY. **Flyway Documentation.** Disponível em: https://documentation.red-gate.com/flyway. Acesso em: 22 nov. 2026.
 
 JONES, M.; BRADLEY, J.; SAKIMURA, N. **RFC 7519: JSON Web Token (JWT).** IETF, 2015.
 
-OPENAPI INITIATIVE. **OpenAPI Specification.** Disponível em: https://spec.openapis.org/oas/latest.html. Acesso em: _preencher_.
+OPENAPI INITIATIVE. **OpenAPI Specification.** Disponível em: https://spec.openapis.org/oas/latest.html. Acesso em: 22 nov. 2026.
 
-SPRING. **Spring Boot Reference Documentation.** Disponível em: https://docs.spring.io/spring-boot/. Acesso em: _preencher_.
+SPRING. **Spring Boot Reference Documentation.** Disponível em: https://docs.spring.io/spring-boot/. Acesso em: 22 nov. 2026.
 
-SPRING. **Spring Security Reference.** Disponível em: https://docs.spring.io/spring-security/reference/. Acesso em: _preencher_.
+SPRING. **Spring Security Reference.** Disponível em: https://docs.spring.io/spring-security/reference/. Acesso em: 22 nov. 2026.
