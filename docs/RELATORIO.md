@@ -158,7 +158,7 @@ Observações de modelagem:
 - **Estoque por unidade:** `estoques` tem chave única (`unidade_id`, `produto_id`); o saldo nunca fica negativo (`CHECK`). Toda alteração gera uma linha em `movimentacoes_estoque` (livro de movimentações).
 - **Pagamento desacoplado:** `pagamentos` é uma tabela própria; um pedido pode ter várias tentativas (ex.: recusado e depois aprovado). A chave (`pedido_id`, `chave_idempotencia`) é única.
 - **Histórico imutável:** `itens_pedido` copia nome e preço do produto; `pedidos.codigo_promocao` copia o código usado.
-- **Integridade:** chaves estrangeiras e `CHECK` nas migrations Flyway (`src/main/resources/db/migration`); o Hibernate roda com `ddl-auto=validate`, garantindo que modelo e implementação coincidem.
+- **Integridade:** chaves estrangeiras e `CHECK` nas migrations Flyway (`backend/src/main/resources/db/migration`); o Hibernate roda com `ddl-auto=validate`, garantindo que modelo e implementação coincidem.
 - `auditoria_logs` não tem chaves estrangeiras de propósito: é um registro histórico que deve sobreviver a qualquer alteração dos dados.
 
 ### 3.4 Diagrama de classes (visão de domínio)
@@ -451,12 +451,12 @@ Mínimo técnico de segurança e privacidade adotado no back-end.
 ## 6 ENTREGA TÉCNICA
 
 - **Código-fonte e histórico:** repositório Git público em https://github.com/marcosmpar/raizesdonordeste, com commits convencionais por funcionalidade.
-- **Execução:** `./mvnw spring-boot:run` (perfil `dev`: H2 embutido, migrations e seed automáticos); passo a passo, variáveis de ambiente e perfil `prod` no `README.md`.
+- **Execução:** `cd backend && ./mvnw spring-boot:run` (perfil `dev`: H2 embutido, migrations e seed automáticos); passo a passo, variáveis de ambiente e perfil `prod` no `README.md`.
 - **Documentação da API:** Swagger UI em `http://localhost:8080/swagger-ui.html` (OpenAPI em `/v3/api-docs`), gerada do código, e também publicada online para demonstração em https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html (serviço gratuito que hiberna após cerca de 15 minutos sem acesso; o primeiro acesso pode levar cerca de 1 minuto).
 - **Coleção de testes:** `docs/postman/raizes-do-nordeste.postman_collection.json` (55 requisições com testes automáticos, organizadas por pasta).
 - **Banco de dados:** migrations Flyway `V1` a `V6`; DER na seção 3.3.
 - **MVP obrigatório:** Fluxo A (Pedido → Pagamento mock → Atualização de status) completo, com persistência real, JWT com perfis e erro padronizado — além de estoque por unidade, promoções, fidelidade e auditoria.
-- **Testes automatizados:** `./mvnw test` executa 63 testes (autenticação, catálogo, estoque, pedidos, pagamento/status, fidelidade, promoções e auditoria), incluindo cenários de concorrência.
+- **Testes automatizados:** `cd backend && ./mvnw test` executa 63 testes (autenticação, catálogo, estoque, pedidos, pagamento/status, fidelidade, promoções e auditoria), incluindo cenários de concorrência.
 
 
 ## 7 PLANO DE TESTES
@@ -465,14 +465,14 @@ Total: **55 cenários** (34 positivos e 21 negativos). Todos estão implementado
 
 ### Como executar
 
-1. Suba a API no perfil `dev` com banco vazio (apague `./data` se já existir): `./mvnw spring-boot:run`. O seed cria usuários, unidades, produtos, estoque e as promoções `BEMVINDO10` e `RECIFE5`.
+1. Suba a API no perfil `dev` com banco vazio (apague `backend/data` se já existir): `cd backend && ./mvnw spring-boot:run`. O seed cria usuários, unidades, produtos, estoque e as promoções `BEMVINDO10` e `RECIFE5`.
 2. Importe a coleção e execute a pasta inteira **na ordem** (Runner), ou via linha de comando:
    ```bash
    npx newman run docs/postman/raizes-do-nordeste.postman_collection.json
    ```
 3. A coleção é reexecutável: cada execução cria seus próprios cliente, produto e pedidos (sufixo único) e guarda tokens e ids em variáveis de coleção.
 
-Além da coleção, os mesmos fluxos (e outros, como concorrência) são cobertos por testes automatizados: `./mvnw test`.
+Além da coleção, os mesmos fluxos (e outros, como concorrência) são cobertos por testes automatizados: `cd backend && ./mvnw test`.
 
 ### Cobertura dos requisitos do roteiro
 
@@ -556,7 +556,7 @@ Além da coleção, os mesmos fluxos (e outros, como concorrência) são coberto
 
 **Segurança e LGPD.** Senhas com BCrypt, JWT stateless, autorização por perfil e por propriedade do dado, respostas e logs sem dados pessoais, consentimento revogável para a fidelidade e segredos fora do código (seção 5).
 
-**Evidências.** A coleção Postman executa 55 cenários (34 positivos e 21 negativos), com 112 verificações automáticas aprovadas; a suíte `./mvnw test` executa 63 testes, incluindo concorrência de estoque (10 saídas simultâneas sobre saldo 5 resultam em exatamente 5 sucessos) e de pagamento (6 pagamentos simultâneos do mesmo pedido resultam em 1 aprovação).
+**Evidências.** A coleção Postman executa 55 cenários (34 positivos e 21 negativos), com 112 verificações automáticas aprovadas; a suíte `cd backend && ./mvnw test` executa 63 testes, incluindo concorrência de estoque (10 saídas simultâneas sobre saldo 5 resultam em exatamente 5 sucessos) e de pagamento (6 pagamentos simultâneos do mesmo pedido resultam em 1 aprovação).
 
 **Limitações e próximos passos.** Expiração automática de pedidos não pagos (liberando a reserva de estoque), separação da chamada ao gateway real da transação de banco, refresh token, rate limiting, restrição da equipe por unidade e validação do perfil de produção em PostgreSQL real.
 

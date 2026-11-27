@@ -3,6 +3,8 @@ services:
   - type: web
     name: raizes-do-nordeste
     runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     plan: free
     healthCheckPath: /unidades
     envVars:
