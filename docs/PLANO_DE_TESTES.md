@@ -4,14 +4,14 @@ Total: **55 cenários** (34 positivos e 21 negativos). Todos estão implementado
 
 ## Como executar
 
-1. Suba a API no perfil `dev` com banco vazio (apague `./data` se já existir): `./mvnw spring-boot:run`. O seed cria usuários, unidades, produtos, estoque e as promoções `BEMVINDO10` e `RECIFE5`.
+1. Suba a API no perfil `dev` com banco vazio (apague `backend/data` se já existir): `cd backend && ./mvnw spring-boot:run`. O seed cria usuários, unidades, produtos, estoque e as promoções `BEMVINDO10` e `RECIFE5`.
 2. Importe a coleção e execute a pasta inteira **na ordem** (Runner), ou via linha de comando:
    ```bash
    npx newman run docs/postman/raizes-do-nordeste.postman_collection.json
    ```
 3. A coleção é reexecutável: cada execução cria seus próprios cliente, produto e pedidos (sufixo único) e guarda tokens e ids em variáveis de coleção.
 
-Além da coleção, os mesmos fluxos (e outros, como concorrência) são cobertos por testes automatizados: `./mvnw test`.
+Além da coleção, os mesmos fluxos (e outros, como concorrência) são cobertos por testes automatizados: `cd backend && ./mvnw test`.
 
 ## Cobertura dos requisitos do roteiro
 

@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* Tokens do arquivo de design "Raízes do Nordeste — Front" (Paper) */
+@theme {
+  --color-papel: #ffffff;
+  --color-bagaco: #f4f2ee;
+  --color-linha: #dedad3;
+  --color-tinta: #17130f;
+  --color-tinta-suave: #5c554d;
+  --color-cordel: #ffc62e;
+  --color-anil: #2445a8;
+  --color-mandacaru: #17693f;
+  --color-pimenta: #b8322a;
+}
+
+@theme inline {
+  --font-titulo: var(--fonte-titulo), system-ui, sans-serif;
+  --font-sans: var(--fonte-corpo), system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  body {
+    background: var(--color-papel);
+    color: var(--color-tinta);
+  }
+  button:not(:disabled),
+  select {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-anil);
+    outline-offset: 2px;
+  }
+}
+
+@utility titulo {
+  font-family: var(--font-titulo);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}

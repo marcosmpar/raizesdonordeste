@@ -1,10 +1,17 @@
-# Blueprint do Render: cria o serviço web a partir do Dockerfile (plano gratuito).
+# Blueprint do Render: cria o serviço da API a partir do Dockerfile (plano gratuito).
+# O front-end (web/) é publicado na Vercel.
 services:
   - type: web
     name: raizes-do-nordeste
     runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     plan: free
     healthCheckPath: /unidades
+    # só mudanças na API disparam um novo deploy
+    buildFilter:
+      paths:
+        - backend/**
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: dev

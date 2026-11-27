@@ -1,0 +1,22 @@
+# Ambiente local de demonstração: API (perfil dev, H2 com seed) + front-end/BFF.
+# Uso: docker compose up --build  →  http://localhost:3000
+services:
+  backend:
+    build: ./backend
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-somente-local-troque-este-segredo-com-32-caracteres}
+    ports:
+      - "8080:8080"
+
+  web:
+    build: ./web
+    environment:
+      BACKEND_URL: http://backend:8080
+      # a API Java leva alguns segundos para subir
+      BACKEND_TIMEOUT_MS: "20000"
+      # HTTP local, sem TLS
+      COOKIE_SECURE: "false"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

@@ -1,18 +1,33 @@
-# Raízes do Nordeste — Back-end
+# Raízes do Nordeste
 
-API REST da rede de restaurantes **Raízes do Nordeste**: cardápio por unidade, pedidos multicanal (APP, TOTEM, BALCAO, PICKUP, WEB), estoque por unidade, pagamento via gateway **simulado (mock)**, promoções, programa de fidelidade com consentimento (LGPD) e auditoria de ações sensíveis.
+Monorepo do sistema da rede de restaurantes **Raízes do Nordeste**: cardápio por unidade, pedidos multicanal (APP, TOTEM, BALCAO, PICKUP, WEB), estoque por unidade, pagamento via gateway **simulado (mock)**, promoções, programa de fidelidade com consentimento (LGPD) e auditoria de ações sensíveis.
 
-Projeto acadêmico de Back-end (Java 17 + Spring Boot 4). Fluxo principal entregue: **Pedido → Pagamento mock → Atualização de status**.
+Nasceu como projeto acadêmico de Back-end (Java 17 + Spring Boot 4; a versão avaliada está na tag `v1.0-backend`). Fluxo principal entregue: **Pedido → Pagamento mock → Atualização de status**.
+
+## Organização do repositório
+
+| Pasta | Conteúdo |
+|---|---|
+| [`backend/`](backend) | API REST em Java/Spring Boot, dona das regras de negócio |
+| [`web/`](web) | Front-end e BFF em Next.js (React, TypeScript) |
+| [`docs/`](docs) | Documentação, diagramas e coleção Postman |
+
+```
+navegador ──► web: telas + BFF (/api/*) ──► backend: API REST ──► banco
+              cookie httpOnly               JWT Bearer
+```
+
+O BFF guarda o JWT em cookie `httpOnly`, repassa as chamadas necessárias (lista fechada de rotas), agrega dados para as telas e define o canal do pedido (`WEB` para cliente, `BALCAO` para a equipe). Regras de negócio e autorização ficam na API.
 
 ## Requisitos
 
 | Item | Versão |
 |---|---|
+| Node.js (front-end) | 20.19 ou superior (usado: 24+) |
 | Java (JDK) | 17 ou superior |
 | Maven | não precisa instalar (usa o wrapper `./mvnw`) |
 | Banco (dev/testes) | H2 embutido — nada a instalar |
 | Banco (prod) | PostgreSQL 14+ (opcional) |
-| Node.js | opcional, apenas para rodar a coleção via `newman` |
 
 Dependências principais: Spring Web MVC, Spring Data JPA, Spring Security, Bean Validation, Flyway, springdoc-openapi, JJWT.
 
@@ -20,7 +35,7 @@ Dependências principais: Spring Web MVC, Spring Data JPA, Spring Security, Bean
 
 ```bash
 git clone https://github.com/marcosmpar/raizesdonordeste.git
-cd raizesdonordeste
+cd raizesdonordeste/backend
 ./mvnw spring-boot:run
 ```
 
@@ -29,7 +44,7 @@ Na primeira execução o Flyway cria o banco (H2 em arquivo, `./data/raizes`) e 
 - **Swagger UI:** http://localhost:8080/swagger-ui.html
 - **OpenAPI (JSON):** http://localhost:8080/v3/api-docs
 
-Para recomeçar do zero (recria o seed): pare a aplicação e apague a pasta `./data`.
+Para recomeçar do zero (recria o seed): pare a aplicação e apague a pasta `backend/data`.
 
 ### Usuários do seed (senha `Senha@123`)
 
@@ -48,9 +63,34 @@ O seed também cria 2 unidades (Recife e Salvador), 5 produtos com cardápio, 50
 1. `POST /auth/login` com `{"email":"cliente@raizes.com","senha":"Senha@123"}`.
 2. Copie o `accessToken`, clique em **Authorize** e cole o token.
 
+## Front-end e BFF
+
+Com a API no ar, em outro terminal (a partir da raiz):
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Acesse **http://localhost:3000** e entre com um usuário do seed.
+
+| Tela | Quem usa |
+|---|---|
+| `/` cardápio por unidade e categoria, sacola (no celular em `/sacola`), promoção e pontos | público (pedir exige login) |
+| `/pedidos` e `/pedidos/{id}` acompanhamento, pagamento simulado e cancelamento | usuários logados |
+| `/painel` fila de preparo e entrega | equipe |
+| `/fidelidade` consentimento, saldo e histórico | cliente |
+
+### Tudo de uma vez com Docker
+
+```bash
+docker compose up --build
+```
+
 ## Variáveis de ambiente
 
-Copie `.env.example` como referência. No perfil `dev` nenhuma é obrigatória.
+Referências: `backend/.env.example` e `web/.env.example`. Em desenvolvimento nenhuma é obrigatória.
 
 | Variável | Uso | Obrigatória |
 |---|---|---|
@@ -58,6 +98,9 @@ Copie `.env.example` como referência. No perfil `dev` nenhuma é obrigatória.
 | `JWT_SECRET` | chave de assinatura do JWT (mín. 32 caracteres) | **prod** |
 | `JWT_EXPIRATION_SECONDS` | validade do token (padrão 3600) | não |
 | `DB_URL`, `DB_USER`, `DB_PASSWORD` | conexão PostgreSQL | **prod** |
+| `BACKEND_URL` (web) | endereço da API visto pelo BFF | em hospedagem |
+| `BACKEND_TIMEOUT_MS` (web) | espera máxima pela API (padrão 15000) | não |
+| `COOKIE_SECURE` (web) | `false` apenas para HTTP local em modo de produção | não |
 
 ### Perfil `prod` (PostgreSQL)
 
@@ -67,17 +110,25 @@ export SPRING_PROFILES_ACTIVE=prod
 export DB_URL=jdbc:postgresql://localhost:5432/raizesdonordeste
 export DB_USER=raizes DB_PASSWORD=sua-senha
 export JWT_SECRET=um-segredo-longo-e-aleatorio-com-mais-de-32-caracteres
-./mvnw spring-boot:run
+cd backend && ./mvnw spring-boot:run
 ```
 
-O Flyway aplica as migrations (`src/main/resources/db/migration`). **O seed não roda em `prod`**; crie o primeiro ADMIN diretamente no banco ou rode antes em `dev`. Observação: neste ambiente de desenvolvimento o perfil `prod` não foi exercitado contra um PostgreSQL real; o SQL das migrations usa apenas recursos padrão e é executado em H2 em modo PostgreSQL.
+O Flyway aplica as migrations (`backend/src/main/resources/db/migration`). **O seed não roda em `prod`**; crie o primeiro ADMIN diretamente no banco ou rode antes em `dev`. Observação: neste ambiente de desenvolvimento o perfil `prod` não foi exercitado contra um PostgreSQL real; o SQL das migrations usa apenas recursos padrão e é executado em H2 em modo PostgreSQL.
 
-## Deploy de demonstração (Render, plano gratuito)
+## Deploy de demonstração
 
-O repositório traz um `Dockerfile` e um `render.yaml` (Blueprint). Com o perfil `dev` (H2 embutido + seed automático) não é preciso criar banco: a API sobe com dados de demonstração e o **Swagger fica funcional**.
+```
+navegador ──► Vercel (web: telas + BFF) ──► Render (backend: API)
+```
+
+Publique primeiro a API e depois o front-end.
+
+### API no Render (plano gratuito)
+
+O repositório traz o `backend/Dockerfile` e um `render.yaml` (Blueprint). Com o perfil `dev` (H2 embutido + seed automático) não é preciso criar banco: a API sobe com dados de demonstração e o **Swagger fica funcional**.
 
 1. Crie uma conta em https://render.com e conecte o repositório do GitHub.
-2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço web com plano `free`).
+2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço da API com plano `free`; mudanças fora de `backend/` não disparam deploy).
 3. Aguarde o build. O endereço fica como `https://<nome>.onrender.com` — a raiz (`/`) redireciona para o Swagger (`/swagger-ui.html`).
 
 Demonstração publicada: https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html
@@ -88,11 +139,34 @@ Observações:
 - O banco H2 fica no disco efêmero: ao reiniciar, os dados voltam ao estado inicial (o seed é refeito). Os usuários de demonstração (senha `Senha@123`) ficam públicos, então use apenas para demonstração.
 - A chave JWT é gerada pelo `render.yaml` (`JWT_SECRET`). A porta é lida da variável `PORT`.
 - Os limites dos planos gratuitos mudam; confira a página de preços do provedor.
+- Se o serviço foi criado manualmente (sem Blueprint), o `render.yaml` não o altera: no painel, use o Dockerfile `./backend/Dockerfile` e o contexto `./backend`.
+
+### Front-end e BFF na Vercel
+
+1. Crie uma conta em https://vercel.com e importe este repositório do GitHub (a partir da `main`).
+2. Em **Root Directory**, escolha `web` (o framework detectado é Next.js).
+3. Cadastre as variáveis de ambiente abaixo e faça o deploy.
+
+| Variável | Valor |
+|---|---|
+| `BACKEND_URL` | endereço público da API, ex.: `https://raizes-do-nordeste-ffjn.onrender.com` |
+| `BACKEND_TIMEOUT_MS` | `90000` (a API gratuita pode levar cerca de 1 minuto para acordar) |
+
+Observações:
+
+- Não defina `COOKIE_SECURE`: em produção o cookie de sessão já é enviado apenas por HTTPS.
+- `BACKEND_URL` é usada só no servidor; não use o prefixo `NEXT_PUBLIC_`.
+- A espera configurada precisa caber na duração máxima das funções do plano usado na Vercel.
+- Confira os termos do plano escolhido (o plano gratuito é voltado a uso pessoal, não comercial).
 
 ## Testes
 
 ```bash
-./mvnw test                      # 63 testes automatizados (JUnit + MockMvc, H2 em memória)
+cd backend && ./mvnw test        # 63 testes automatizados (JUnit + MockMvc, H2 em memória)
+```
+
+```bash
+cd web && npm test               # 16 testes do BFF (Vitest, API simulada)
 ```
 
 Coleção Postman/Insomnia com **55 cenários** (34 positivos, 21 negativos) e testes automáticos em cada requisição:
@@ -107,12 +181,18 @@ O plano de testes completo (ID, pré-condição, entrada, resultado esperado e n
 ## Estrutura do projeto
 
 ```
-src/main/java/br/com/marcosmpar/raizesdonordeste
+backend/src/main/java/br/com/marcosmpar/raizesdonordeste
 ├── api/             controllers, DTOs, tratamento de erros, segurança e OpenAPI
 ├── application/     casos de uso (pedido, pagamento, estoque, fidelidade, promoção, auditoria...)
 ├── domain/          entidades, regras de negócio, exceções e portas (interfaces de repositório)
 └── infrastructure/  JPA/repositórios, JWT, gateway de pagamento mock, seed de dev
-src/main/resources/db/migration   migrations Flyway (V1..V6)
+backend/src/main/resources/db/migration   migrations Flyway (V1..V6)
+
+web/src
+├── app/             telas e rotas do BFF (app/api)
+├── server/          cliente da API, sessão e proteções do BFF
+├── components/      componentes compartilhados
+└── lib/             tipos, chamadas ao BFF e formatação
 ```
 
 Dependências: `api → application → domain`; a `infrastructure` implementa as portas do `domain`.
@@ -135,4 +215,3 @@ Dependências: `api → application → domain`; a `infrastructure` implementa a
 - Swagger online (demonstração no Render): https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html — o serviço gratuito hiberna após ~15 min sem acesso, então o primeiro acesso pode demorar cerca de 1 minuto
 - Swagger local: http://localhost:8080/swagger-ui.html (rota `/swagger-ui.html`)
 - Coleção de testes: `docs/postman/raizes-do-nordeste.postman_collection.json`
-- Deploy: não há
