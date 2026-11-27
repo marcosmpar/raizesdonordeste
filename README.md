@@ -115,12 +115,20 @@ cd backend && ./mvnw spring-boot:run
 
 O Flyway aplica as migrations (`backend/src/main/resources/db/migration`). **O seed não roda em `prod`**; crie o primeiro ADMIN diretamente no banco ou rode antes em `dev`. Observação: neste ambiente de desenvolvimento o perfil `prod` não foi exercitado contra um PostgreSQL real; o SQL das migrations usa apenas recursos padrão e é executado em H2 em modo PostgreSQL.
 
-## Deploy de demonstração (Render, plano gratuito)
+## Deploy de demonstração
+
+```
+navegador ──► Vercel (web: telas + BFF) ──► Render (backend: API)
+```
+
+Publique primeiro a API e depois o front-end.
+
+### API no Render (plano gratuito)
 
 O repositório traz o `backend/Dockerfile` e um `render.yaml` (Blueprint). Com o perfil `dev` (H2 embutido + seed automático) não é preciso criar banco: a API sobe com dados de demonstração e o **Swagger fica funcional**.
 
 1. Crie uma conta em https://render.com e conecte o repositório do GitHub.
-2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço web com plano `free`).
+2. **New → Blueprint**, escolha este repositório e confirme (o `render.yaml` cria o serviço da API com plano `free`; mudanças fora de `backend/` não disparam deploy).
 3. Aguarde o build. O endereço fica como `https://<nome>.onrender.com` — a raiz (`/`) redireciona para o Swagger (`/swagger-ui.html`).
 
 Demonstração publicada: https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html
@@ -131,6 +139,25 @@ Observações:
 - O banco H2 fica no disco efêmero: ao reiniciar, os dados voltam ao estado inicial (o seed é refeito). Os usuários de demonstração (senha `Senha@123`) ficam públicos, então use apenas para demonstração.
 - A chave JWT é gerada pelo `render.yaml` (`JWT_SECRET`). A porta é lida da variável `PORT`.
 - Os limites dos planos gratuitos mudam; confira a página de preços do provedor.
+- Se o serviço foi criado manualmente (sem Blueprint), o `render.yaml` não o altera: no painel, use o Dockerfile `./backend/Dockerfile` e o contexto `./backend`.
+
+### Front-end e BFF na Vercel
+
+1. Crie uma conta em https://vercel.com e importe este repositório do GitHub (a partir da `main`).
+2. Em **Root Directory**, escolha `web` (o framework detectado é Next.js).
+3. Cadastre as variáveis de ambiente abaixo e faça o deploy.
+
+| Variável | Valor |
+|---|---|
+| `BACKEND_URL` | endereço público da API, ex.: `https://raizes-do-nordeste-ffjn.onrender.com` |
+| `BACKEND_TIMEOUT_MS` | `90000` (a API gratuita pode levar cerca de 1 minuto para acordar) |
+
+Observações:
+
+- Não defina `COOKIE_SECURE`: em produção o cookie de sessão já é enviado apenas por HTTPS.
+- `BACKEND_URL` é usada só no servidor; não use o prefixo `NEXT_PUBLIC_`.
+- A espera configurada precisa caber na duração máxima das funções do plano usado na Vercel.
+- Confira os termos do plano escolhido (o plano gratuito é voltado a uso pessoal, não comercial).
 
 ## Testes
 
@@ -188,4 +215,3 @@ Dependências: `api → application → domain`; a `infrastructure` implementa a
 - Swagger online (demonstração no Render): https://raizes-do-nordeste-ffjn.onrender.com/swagger-ui/index.html — o serviço gratuito hiberna após ~15 min sem acesso, então o primeiro acesso pode demorar cerca de 1 minuto
 - Swagger local: http://localhost:8080/swagger-ui.html (rota `/swagger-ui.html`)
 - Coleção de testes: `docs/postman/raizes-do-nordeste.postman_collection.json`
-- Deploy: não há
