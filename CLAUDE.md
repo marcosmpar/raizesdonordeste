@@ -1,16 +1,24 @@
-# Raízes do Nordeste — Back-end
+# Raízes do Nordeste
 
 API REST (Spring Boot) para uma rede de restaurantes multicanal (APP, TOTEM, BALCAO, PICKUP, WEB).
 Projeto acadêmico (Projeto Back End), mas deve ser tratado como solução profissional de mercado.
 Fonte dos requisitos: `PROJETO.md` (roteiro original, não editar).
 
-## Stack
+## Monorepo
+
+- `backend/`: API Spring Boot (comandos Maven rodam dentro dela). `web/`: Next.js (front-end + BFF). `docs/` e `render.yaml` na raiz.
+- Estado antes da reorganização: tag `v1.0-backend`.
+- Web: `npm run dev|test|lint|build` em `web/`. Ler `web/AGENTS.md` antes de mexer no Next.js.
+- BFF: rotas em `web/src/app/api` (lista fechada, sem proxy genérico), envelope `rota()` em `web/src/server`; JWT só em cookie httpOnly; sem regra de negócio no BFF.
+- Servidores de preview: `.claude/launch.json` (`backend`, `web`).
+
+## Stack (back-end)
 
 - Java 17, Spring Boot 4.2.0, Maven (`./mvnw`)
 - Pacote base: `br.com.marcosmpar.raizesdonordeste`
 - A adicionar (pom hoje só tem webmvc + devtools + test): Spring Data JPA, Validation, Security + JWT,
   springdoc-openapi, Flyway, banco relacional (PostgreSQL; H2 para testes), Lombok (opcional)
-- Comandos: `./mvnw spring-boot:run`, `./mvnw test`
+- Comandos (em `backend/`): `./mvnw spring-boot:run`, `./mvnw test`
 
 ## Arquitetura (camadas obrigatórias, explícitas no código)
 
@@ -67,7 +75,7 @@ Regras de negócio chave:
 ## Estado atual
 
 - Passos 1 (base, erros, perfis), 2 (usuários + JWT + roles), 3 (unidades, produtos, cardápio por unidade) 4 (estoque por unidade) e 5 (pedidos) 6 (pagamento mock + status + cancelamento) 7 (fidelidade, promoções, auditoria) e 8 (documentação, coleção Postman, plano de testes) concluídos. Pendências manuais do usuário: URL do repositório público no README, preencher `docs/relatorio/capa.json` (instituição, curso, professor, cidade, RU) e as datas de acesso das referências em `docs/RELATORIO.md`, e regerar o PDF (`python3 docs/relatorio/gerar_relatorio_pdf.py`).
-- GET de `/unidades/**` e `/produtos/**` são públicos; escritas: unidades só ADMIN; produtos e cardápio ADMIN/GERENTE. Produto usa exclusão lógica. Estoque: `/estoque` (saldo, ADMIN/GERENTE/ATENDENTE), `/estoque/entradas|saidas|movimentacoes` (ADMIN/GERENTE); saída usa lock pessimista, saldo nunca negativo (409 `ESTOQUE_INSUFICIENTE`); `EstoqueService.registrarSaida` será reutilizado pelo pedido. Seed dev: 50 un. de cada produto por unidade (ao mudar o seed, apagar `./data`).
+- GET de `/unidades/**` e `/produtos/**` são públicos; escritas: unidades só ADMIN; produtos e cardápio ADMIN/GERENTE. Produto usa exclusão lógica. Estoque: `/estoque` (saldo, ADMIN/GERENTE/ATENDENTE), `/estoque/entradas|saidas|movimentacoes` (ADMIN/GERENTE); saída usa lock pessimista, saldo nunca negativo (409 `ESTOQUE_INSUFICIENTE`); `EstoqueService.registrarSaida` será reutilizado pelo pedido. Seed dev: 50 un. de cada produto por unidade (ao mudar o seed, apagar `backend/data`).
 - Pedidos: `POST /pedidos` (CLIENTE/ATENDENTE/GERENTE/ADMIN), `GET /pedidos` (filtros `canalPedido`, `status`, `unidadeId`), `GET /pedidos/{id}`. `clienteId` é opcional (CLIENTE usa o próprio id; outro id → 403). Total calculado com preço do cardápio da unidade; itens repetidos são somados; item guarda snapshot de nome/preço. CLIENTE só vê os próprios (404 nos alheios). Atualização de status e cancelamento ficam no passo 6.
 - Pagamento: `POST /pagamentos {pedidoId, simulacao?}` + header opcional `Idempotency-Key`; 201 processado (APROVADO/RECUSADO), 200 repetição idempotente, 202 gateway indisponível (PENDENTE, repetir com a mesma chave). `simulacao` (APROVADO/RECUSADO/INDISPONIVEL) só existe por ser mock. `GET /pagamentos/{id}`, `GET /pedidos/{id}/pagamentos`. Pedido é bloqueado (lock) durante pagamento/status/cancelamento.
 - Status: `PATCH /pedidos/{id}/status` (só PRONTO — COZINHA/ATENDENTE/GERENTE/ADMIN — e ENTREGUE — sem COZINHA); `POST /pedidos/{id}/cancelamento` (CLIENTE só o próprio e aguardando pagamento; equipe também EM_PREPARO, com estorno do pagamento e devolução de estoque). Máquina de estados em `StatusPedido.podeIrPara`; inválida → 409 `TRANSICAO_INVALIDA`.
@@ -77,7 +85,7 @@ Regras de negócio chave:
 - Auditoria: `AuditoriaService.registrar(ator, acao, entidade, id, detalhes)` na mesma transação da ação; `GET /auditoria?entidade=&entidadeId=&acao=` (ADMIN/GERENTE). Ações: PEDIDO_CRIADO/STATUS_ALTERADO/CANCELADO, PAGAMENTO_PROCESSADO, USUARIO_CRIADO, PROMOCAO_CRIADA/DESATIVADA, FIDELIDADE_*. Nunca registrar PII (e-mail/nome). Estoque usa o próprio livro de movimentações (com usuário) como trilha.
 - Docs em `docs/` (REQUISITOS, ARQUITETURA com Mermaid, API, SEGURANCA_LGPD, PLANO_DE_TESTES, RELATORIO consolidado) e coleção em `docs/postman/` (55 cenários T01–T55; gerada por script — se mudar cenários, editar a coleção e o plano em conjunto). Rodar a coleção exige API em `dev` com seed.
 - Diagramas: `docs/diagramas/*.png|svg`, gerados por `python3 docs/diagramas/gerar_diagramas.py` (sem dependências; PNG usa o Chrome).
-- Deploy demo: `Dockerfile` + `render.yaml` (Render free, perfil dev/H2 com seed); `server.port=${PORT:8080}` e `forward-headers-strategy=framework`; `GET /` redireciona ao Swagger. Imagem Docker não foi construída localmente (Docker ausente); o JAR foi validado simulando as variáveis do contêiner.
+- Deploy demo (só a API): `backend/Dockerfile` + `render.yaml` (Render free, perfil dev/H2 com seed); `server.port=${PORT:8080}` e `forward-headers-strategy=framework`; `GET /` redireciona ao Swagger. Imagem Docker não foi construída localmente (Docker ausente); o JAR foi validado simulando as variáveis do contêiner.
 - Paginação `?page=1&limit=10` (limit máx. 100) via `PaginaResponse`.
 - Seed dev (`DevDataSeeder`): `{cliente,atendente,cozinha,gerente,admin}@raizes.com`, senha `Senha@123`.
 - Cadastro público `POST /usuarios` cria só CLIENTE; `POST /usuarios/internos` é ADMIN. Perfis por rota via `@PreAuthorize`.
